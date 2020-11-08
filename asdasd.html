@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html xmlns:o="urn:schemas-microsoft-com:office:office" __expr-val-dir="ltr" lang="es-es" dir="ltr">
+
+<head>
+    <meta name="google-site-verification" content="Rf7t4nEfDl0Rs-cUIlYrEtyvI1Ai6ezS70Gb6pD-UoE" />
+    <meta name="robots" content="NOODP" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="GENERATOR" content="Microsoft SharePoint" />
+    <meta name="progid" content="SharePoint.WebPartPage.Document" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="keywords"
+        content="comparativa seguros, empresa seguridad, instituto seguros, gestion Riesgos, empresa seguros, cobertura seguros, tipos Riesgos, tipos accidentes, contratar seguros, consulta seguros, tipos seguros, beneficios seguros, clasificacion Riesgos, gestion seguridad, programa seguros, agencias seguros, factores Riesgos, clasificacion accidentes, clases Riesgos, aseguradora Riesgos" />
+    <!--agregado Responsive-->
+    <meta name="viewport"
+        content="width=device-width, minimum-scale=0.25,maximum-scale=1.5,initial-scale=1.0,user-scalable=no" />
+
+
+
+    <title>Markdown Editor</title>
+
+    <link rel="stylesheet" type="text/css"
+        href="https://www.colmenaseguros.com/Style%20Library/Responsive/css/bootstrap.min.css" />
+
+
+    <link rel="stylesheet" href="https://www.colmenaseguros.com/Style Library/Content/EstilosApp/ColmenaArl.css" />
+    <link rel="stylesheet" href="https://www.colmenaseguros.com/Style Library/Content/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://www.colmenaseguros.com//Style Library/Content/bootstrap-datetimepicker.min.css"
+        rel="stylesheet" />
+
+
+
+    <script src="https://www.colmenaseguros.com/Style Library/responsive/js/jquery.js"></script>
+    <script src="https://www.colmenaseguros.com/Style Library/Scripts/moment_2.22.js"></script>
+
+
+    <script src="https://www.colmenaseguros.com/Style Library/Scripts/object-assign-auto.min.js"></script>
+    <script src="https://www.colmenaseguros.com/Style Library/Scripts/es6-promise.auto.min.js"></script>
+    <script src="https://www.colmenaseguros.com/Style Library/Scripts/vue.js"></script>
+    <script src="https://www.colmenaseguros.com/Style Library/Scripts/vee-validate.min.js"></script>
+    <script src="https://www.colmenaseguros.com/Style Library/Scripts/bootstrap.min.js"></script>
+    <script
+        src="https://www.colmenaseguros.com/Style%20Library/Scripts/App/Portal.Utilities/utils-vue-colmena.js?v=13"></script>
+
+
+
+</head>
+
+<body>
+    <input name="ctl00$m$g_f92c4032_0e09_4e58_af3e_1aae25205989$ctl00$txtRegexEmail" type="hidden"
+        id="ctl00_m_g_f92c4032_0e09_4e58_af3e_1aae25205989_ctl00_txtRegexEmail"
+        value="^[a-zA-ZñÑ0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9-]{2,24}$" />
+    <div id="editor">
+
+        <div class="container" id="BodyWebPartContenidoPagina">
+
+            <div class="shadow p-3 mb-1 bg-white rounded">
+
+                <ul id="example-1">
+                    <li v-for="item in items">
+                        {{ item.mensaje }}
+                    </li>
+                </ul>
+
+                <div id="algo">
+
+
+
+
+
+
+
+                    <template v-for="pregunta in datosUsuario.Preguntas" :value="pregunta.IdPregunta">
+
+                       
+
+
+             
+                      
+
+                        <template v-if="pregunta.TipoPregunta.Id == 7">
+                            <section class="row mb-1">
+                                <div class="col-md-12">
+                                    <section class="row">
+                                        <div class="col-md-8">
+                                            <p class="mb-1">{{pregunta.Pregunta}}</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input 
+                                                type ="text"
+                                                v-model.trim="pregunta.Respuesta" 
+                                                v-validate="pregunta.Expresion"
+                                                data-vv-scope="valEncuestaUsuario"
+                                                :class="{'form-control form-control-sm': true, 'is-invalid': errors.has('valEncuestaUsuario.pregunta' + pregunta.IdPregunta) }"
+                                                wrap="soft" 
+                                                :name="'pregunta' + pregunta.IdPregunta">                               
+                                            </input>
+                                            
+                                        </div>
+                                        <div class="col-md-12">
+                                            <span
+                                                v-show="errors.has('valEncuestaUsuario.pregunta' + pregunta.IdPregunta)"
+                                                class="text-danger">{{ errors.first('valEncuestaUsuario.pregunta' + pregunta.IdPregunta) }}</span>
+                                        </div>
+                                    </section>
+                                </div>
+                            </section>
+                        </template>
+                       
+                    </template>
+
+<hr>
+                    <p>{{ pregunta.Respuesta }}</p>
+
+                    <input v-on:click="procesarPreguntasSSS" type="button" class="btn btn-outline-info"
+                        value="Empezar encuesta" />
+
+                    <input v-on:click="vaidar" type="button" class="btn btn-outline-info" value="vaidar" />
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+   
+
+
+
+
+    <script>
+
+        var idControlesEncuesta = {
+            msjFinalizacionEncuesta: "input[id$='hdMensajeFinalEncuesta']",
+            txtRegexCorreo: "input[id$='txtRegexEmail']",
+        };
+
+        var t = new Vue({
+            el: "#editor",
+            data: {
+                input: "# hello",
+                numeros: [],
+                pregunta: {
+                    Respuesta: "dsfsdf"
+                },
+                datosUsuario: {
+                    Preguntas: []
+                },
+                items: [
+                    { mensaje: 'Foo' },
+                    { mensaje: 'Bar' }
+                ]
+
+            },
+
+            methods: {
+
+                vaidar: function vaidar() {
+                    this.$validator.validateAll("valEncuestaUsuario").then(function (result) {
+                        if (result) {
+                            alert("Todo bien")
+                        }
+                        else {
+                            alert("Mals")
+                        }
+                    });
+
+                },
+                procesarPreguntasSSS: function procesarPreguntasSSS() {
+
+
+                    var preguntasServer = [
+                        {
+                            "IdPregunta": 31,
+                            "TipoPregunta": {
+                                "Id": "1",
+                                "Nombre": "Encabezado"
+                            },
+                            "Pregunta": "Datos del trabajador",
+                            "PreguntaPadre": 0,
+                            "Respuesta": null,
+                            "Opciones": [
+
+                            ]
+                        },
+                        {
+                            "IdPregunta": 2,
+                            "TipoPregunta": {
+                                "Id": "6",
+                                "Nombre": "Fecha"
+                            },
+                            "Pregunta": "Fecha de nacimiento",
+                            "PreguntaPadre": 31,
+                            "Respuesta": null,
+                            "Opciones": [
+
+                            ]
+                        },
+                        {
+                            "IdPregunta": 1,
+                            "TipoPregunta": {
+                                "Id": "4",
+                                "Nombre": "Numéricas"
+                            },
+                            "Pregunta": "Edad",
+                            "PreguntaPadre": 31,
+                            "Respuesta": null,
+                            "Opciones": [
+
+                            ]
+                        },
+                        {
+                            "IdPregunta": 3,
+                            "TipoPregunta": {
+                                "Id": "4",
+                                "Nombre": "Numéricas"
+                            },
+                            "Pregunta": "Teléfono",
+                            "PreguntaPadre": 31,
+                            "Respuesta": null,
+                            "Opciones": [
+
+                            ]
+                        },
+                        {
+                            "IdPregunta": 32,
+                            "TipoPregunta": {
+                                "Id": "3",
+                                "Nombre": "Selección"
+                            },
+                            "Pregunta": "Tipo Trabajador",
+                            "PreguntaPadre": 31,
+                            "Respuesta": null,
+                            "Opciones": [
+                                {
+                                    "Id": "8",
+                                    "Nombre": "Dependiente"
+                                },
+                                {
+                                    "Id": "9",
+                                    "Nombre": "Independiente"
+                                }
+                            ]
+                        },
+                        {
+                            "IdPregunta": 33,
+                            "TipoPregunta": {
+                                "Id": "7",
+                                "Nombre": "Texto"
+                            },
+                            "Pregunta": "Email",
+                            "PreguntaPadre": 31,
+                            "Respuesta": null,
+                            "Opciones": [
+
+                            ]
+                        },
+                        {
+                            "IdPregunta": 34,
+                            "TipoPregunta": {
+                                "Id": "3",
+                                "Nombre": "Selección"
+                            },
+                            "Pregunta": "Genero",
+                            "PreguntaPadre": 31,
+                            "Respuesta": null,
+                            "Opciones": [
+                                {
+                                    "Id": "10",
+                                    "Nombre": "Masculino"
+                                },
+                                {
+                                    "Id": "11",
+                                    "Nombre": "Femenino"
+                                }
+                            ]
+                        },
+                        {
+                            "IdPregunta": 4,
+                            "TipoPregunta": {
+                                "Id": "1",
+                                "Nombre": "Encabezado"
+                            },
+                            "Pregunta": "1. Antecedentes. ¿Ha tenido alguno de los siguientes antecedentes?",
+                            "PreguntaPadre": 0,
+                            "Respuesta": null,
+                            "Opciones": [
+
+                            ]
+                        },
+                        {
+                            "IdPregunta": 5,
+                            "TipoPregunta": {
+                                "Id": "5",
+                                "Nombre": "Si-No"
+                            },
+                            "Pregunta": "Hipertensión arterial, o enfermedad cardio -vascular, infartos, enfermedad cerebrovascular",
+                            "PreguntaPadre": 4,
+                            "Respuesta": null,
+                            "Opciones": [
+
+                            ]
+                        },
+                        {
+                            "IdPregunta": 6,
+                            "TipoPregunta": {
+                                "Id": "5",
+                                "Nombre": "Si-No"
+                            },
+                            "Pregunta": "Diabetes",
+                            "PreguntaPadre": 4,
+                            "Respuesta": null,
+                            "Opciones": [
+
+                            ]
+                        },
+                        {
+                            "IdPregunta": 7,
+                            "TipoPregunta": {
+                                "Id": "5",
+                                "Nombre": "Si-No"
+                            },
+                            "Pregunta": "Enfermedades pulmonares crónicas (EPOC/ Asma)",
+                            "PreguntaPadre": 4,
+                            "Respuesta": null,
+                            "Opciones": [
+
+                            ]
+                        },
+                        {
+                            "IdPregunta": 9,
+                            "TipoPregunta": {
+                                "Id": "5",
+                                "Nombre": "Si-No"
+                            },
+                            "Pregunta": "Enfermedades renales (riñores) o hepáticas (hígado)",
+                            "PreguntaPadre": 4,
+                            "Respuesta": null,
+                            "Opciones": [
+
+                            ]
+                        },
+                        {
+                            "IdPregunta": 10,
+                            "TipoPregunta": {
+                                "Id": "5",
+                                "Nombre": "Si-No"
+                            },
+                            "Pregunta": "Enfermedades autoinmunes, inmunosupresión, toma medicamentos inmunosupresores, cáncer o VIH",
+                            "PreguntaPadre": 4,
+                            "Respuesta": null,
+                            "Opciones": [
+
+                            ]
+                        },
+                        {
+                            "IdPregunta": 35,
+                            "TipoPregunta": {
+                                "Id": "5",
+                                "Nombre": "Si-No"
+                            },
+                            "Pregunta": "Malnutrición (obesidad o desnutrición)",
+                            "PreguntaPadre": 4,
+                            "Respuesta": null,
+                            "Opciones": [
+
+                            ]
+                        },
+                        {
+                            "IdPregunta": 38,
+                            "TipoPregunta": {
+                                "Id": "5",
+                                "Nombre": "Si-No"
+                            },
+                            "Pregunta": "Tabaquismo",
+                            "PreguntaPadre": 4,
+                            "Respuesta": null,
+                            "Opciones": [
+
+                            ]
+                        },
+                        {
+                            "IdPregunta": 39,
+                            "TipoPregunta": {
+                                "Id": "5",
+                                "Nombre": "Si-No"
+                            },
+                            "Pregunta": "Embarazo actualmente",
+                            "PreguntaPadre": 4,
+                            "Respuesta": null,
+                            "Opciones": [
+
+                            ]
+                        },
+                        {
+                            "IdPregunta": 40,
+                            "TipoPregunta": {
+                                "Id": "5",
+                                "Nombre": "Si-No"
+                            },
+                            "Pregunta": "Convive con personas mayores de 70 años o personas que trabajan en prestación asistencial en salud",
+                            "PreguntaPadre": 4,
+                            "Respuesta": null,
+                            "Opciones": [
+
+                            ]
+                        },
+                        {
+                            "IdPregunta": 41,
+                            "TipoPregunta": {
+                                "Id": "5",
+                                "Nombre": "Si-No"
+                            },
+                            "Pregunta": "Si lleva tratamiento médico por los antecedentes de salud, marque Si, de lo contrario marque No",
+                            "PreguntaPadre": 12,
+                            "Respuesta": null,
+                            "Opciones": [
+
+                            ]
+                        },
+                        {
+                            "IdPregunta": 12,
+                            "TipoPregunta": {
+                                "Id": "1",
+                                "Nombre": "Encabezado"
+                            },
+                            "Pregunta": "2. ¿Ha tenido síntomas en los últimos 2 días?",
+                            "PreguntaPadre": 0,
+                            "Respuesta": null,
+                            "Opciones": [
+
+                            ]
+                        },
+                        {
+                            "IdPregunta": 14,
+                            "TipoPregunta": {
+                                "Id": "5",
+                                "Nombre": "Si-No"
+                            },
+                            "Pregunta": "Tos",
+                            "PreguntaPadre": 12,
+                            "Respuesta": null,
+                            "Opciones": [
+
+                            ]
+                        },
+                        {
+                            "IdPregunta": 15,
+                            "TipoPregunta": {
+                                "Id": "5",
+                                "Nombre": "Si-No"
+                            },
+                            "Pregunta": "Dolor de garganta",
+                            "PreguntaPadre": 12,
+                            "Respuesta": null,
+                            "Opciones": [
+
+                            ]
+                        },
+                        {
+                            "IdPregunta": 16,
+                            "TipoPregunta": {
+                                "Id": "5",
+                                "Nombre": "Si-No"
+                            },
+                            "Pregunta": "Fiebre cuantificada mayor a 38°C",
+                            "PreguntaPadre": 12,
+                            "Respuesta": null,
+                            "Opciones": [
+
+                            ]
+                        },
+                        {
+                            "IdPregunta": 18,
+                            "TipoPregunta": {
+                                "Id": "5",
+                                "Nombre": "Si-No"
+                            },
+                            "Pregunta": "Secreción nasal (moco o flema)",
+                            "PreguntaPadre": 12,
+                            "Respuesta": null,
+                            "Opciones": [
+
+                            ]
+                        },
+                        {
+                            "IdPregunta": 19,
+                            "TipoPregunta": {
+                                "Id": "5",
+                                "Nombre": "Si-No"
+                            },
+                            "Pregunta": "Malestar general",
+                            "PreguntaPadre": 12,
+                            "Respuesta": null,
+                            "Opciones": [
+
+                            ]
+                        },
+                        {
+                            "IdPregunta": 20,
+                            "TipoPregunta": {
+                                "Id": "5",
+                                "Nombre": "Si-No"
+                            },
+                            "Pregunta": "Disminución de percepción de olores y sabores",
+                            "PreguntaPadre": 12,
+                            "Respuesta": null,
+                            "Opciones": [
+
+                            ]
+                        },
+                        {
+                            "IdPregunta": 21,
+                            "TipoPregunta": {
+                                "Id": "5",
+                                "Nombre": "Si-No"
+                            },
+                            "Pregunta": "Dificultad respiratoria",
+                            "PreguntaPadre": 12,
+                            "Respuesta": null,
+                            "Opciones": [
+
+                            ]
+                        },
+                        {
+                            "IdPregunta": 45,
+                            "TipoPregunta": {
+                                "Id": "5",
+                                "Nombre": "Si-No"
+                            },
+                            "Pregunta": "Diarrea",
+                            "PreguntaPadre": 12,
+                            "Respuesta": null,
+                            "Opciones": [
+
+                            ]
+                        },
+                        {
+                            "IdPregunta": 22,
+                            "TipoPregunta": {
+                                "Id": "1",
+                                "Nombre": "Encabezado"
+                            },
+                            "Pregunta": "3. Identificación de Contacto",
+                            "PreguntaPadre": 0,
+                            "Respuesta": null,
+                            "Opciones": [
+
+                            ]
+                        },
+                        {
+                            "IdPregunta": 23,
+                            "TipoPregunta": {
+                                "Id": "5",
+                                "Nombre": "Si-No"
+                            },
+                            "Pregunta": "¿En los últimos 15 días ha tenido contacto estrecho (menor a 2 metros por 15 minutos sin protección) con una persona con COVID-19 positivo?",
+                            "PreguntaPadre": 22,
+                            "Respuesta": null,
+                            "Opciones": [
+
+                            ]
+                        },
+                        {
+                            "IdPregunta": 24,
+                            "TipoPregunta": {
+                                "Id": "5",
+                                "Nombre": "Si-No"
+                            },
+                            "Pregunta": "¿En los últimos 15 días ha tenido contacto estrecho (menor a 2 metros por 15 minutos sin protección) con una persona con síntomas respiratorios y ud no sabe si tiene COVID-19 positivo?",
+                            "PreguntaPadre": 22,
+                            "Respuesta": null,
+                            "Opciones": [
+
+                            ]
+                        },
+                        {
+                            "IdPregunta": 25,
+                            "TipoPregunta": {
+                                "Id": "1",
+                                "Nombre": "Encabezado"
+                            },
+                            "Pregunta": "4. Sector trabajo",
+                            "PreguntaPadre": 0,
+                            "Respuesta": null,
+                            "Opciones": [
+
+                            ]
+                        },
+                        {
+                            "IdPregunta": 26,
+                            "TipoPregunta": {
+                                "Id": "3",
+                                "Nombre": "Selección"
+                            },
+                            "Pregunta": "¿En qué sector trabaja usted?",
+                            "PreguntaPadre": 25,
+                            "Respuesta": null,
+                            "Opciones": [
+                                {
+                                    "Id": "1",
+                                    "Nombre": "Personal asistencial en Salud que atiende pacientes"
+                                },
+                                {
+                                    "Id": "2",
+                                    "Nombre": "Personal asistencial en Salud que No atiende pacientes"
+                                },
+                                {
+                                    "Id": "3",
+                                    "Nombre": "Personal de  Aseo en institución de  salud"
+                                },
+                                {
+                                    "Id": "4",
+                                    "Nombre": "Personal de  Vigilancia en institución de salud"
+                                },
+                                {
+                                    "Id": "5",
+                                    "Nombre": "Administrativo en institución de  salud"
+                                },
+                                {
+                                    "Id": "6",
+                                    "Nombre": "Atención al público"
+                                },
+                                {
+                                    "Id": "12",
+                                    "Nombre": "Educación"
+                                },
+                                {
+                                    "Id": "13",
+                                    "Nombre": "Comercio"
+                                },
+                                {
+                                    "Id": "14",
+                                    "Nombre": "Manufactura"
+                                },
+                                {
+                                    "Id": "15",
+                                    "Nombre": "Telecomunicaciones"
+                                },
+                                {
+                                    "Id": "16",
+                                    "Nombre": "Servicio"
+                                },
+                                {
+                                    "Id": "17",
+                                    "Nombre": "Construcción"
+                                },
+                                {
+                                    "Id": "18",
+                                    "Nombre": "Hidrocarburos"
+                                },
+                                {
+                                    "Id": "7",
+                                    "Nombre": "Otro"
+                                }
+                            ]
+                        },
+                        {
+                            "IdPregunta": 42,
+                            "TipoPregunta": {
+                                "Id": "3",
+                                "Nombre": "Selección"
+                            },
+                            "Pregunta": "Indique si durante la pandemia Covid19, usted ha estado trabajando en alguna de estas áreas:\r\n(En caso de haber trabajado en más de una de estas áreas, marque la de mayor frecuencia)",
+                            "PreguntaPadre": 25,
+                            "Respuesta": null,
+                            "Opciones": [
+                                {
+                                    "Id": "27",
+                                    "Nombre": "Área de salud en urgencias"
+                                },
+                                {
+                                    "Id": "28",
+                                    "Nombre": "Área de salud en hospitalización de pabellones Covid"
+                                },
+                                {
+                                    "Id": "29",
+                                    "Nombre": "Área de salud en Unidades de cuidado intensivo adulto/pediátrica y/o neonatal"
+                                },
+                                {
+                                    "Id": "30",
+                                    "Nombre": "Área de salud en unidades de cuidado intermedio adulto y/o pediátrica"
+                                },
+                                {
+                                    "Id": "31",
+                                    "Nombre": "Ninguna de las anteriores"
+                                }
+                            ]
+                        },
+                        {
+                            "IdPregunta": 43,
+                            "TipoPregunta": {
+                                "Id": "3",
+                                "Nombre": "Selección"
+                            },
+                            "Pregunta": "En caso de que la pregunta anterior no le aplique, por favor indique en qué tipo de área ha estado trabajando:",
+                            "PreguntaPadre": 25,
+                            "Respuesta": null,
+                            "Opciones": [
+                                {
+                                    "Id": "32",
+                                    "Nombre": "Otra área de salud"
+                                },
+                                {
+                                    "Id": "33",
+                                    "Nombre": "Área administrativa que no es de salud"
+                                },
+                                {
+                                    "Id": "34",
+                                    "Nombre": "Área operativa que no es de salud"
+                                }
+                            ]
+                        },
+                        {
+                            "IdPregunta": 27,
+                            "TipoPregunta": {
+                                "Id": "1",
+                                "Nombre": "Encabezado"
+                            },
+                            "Pregunta": "5. Pruebas diagnósticas",
+                            "PreguntaPadre": 0,
+                            "Respuesta": null,
+                            "Opciones": [
+
+                            ]
+                        },
+                        {
+                            "IdPregunta": 28,
+                            "TipoPregunta": {
+                                "Id": "5",
+                                "Nombre": "Si-No"
+                            },
+                            "Pregunta": "¿Le han realizado prueba de COVID-19 con muestra en nariz o garganta (RT- PCR o antígeno) que ha salido positiva?",
+                            "PreguntaPadre": 27,
+                            "Respuesta": null,
+                            "Opciones": [
+
+                            ]
+                        },
+                        {
+                            "IdPregunta": 29,
+                            "TipoPregunta": {
+                                "Id": "5",
+                                "Nombre": "Si-No"
+                            },
+                            "Pregunta": "¿Le han realizado prueba de COVID-19 en sangre (Prueba rápida IgG/igM) que ha salido positiva?",
+                            "PreguntaPadre": 27,
+                            "Respuesta": null,
+                            "Opciones": [
+
+                            ]
+                        },
+                        {
+                            "IdPregunta": 36,
+                            "TipoPregunta": {
+                                "Id": "5",
+                                "Nombre": "Si-No"
+                            },
+                            "Pregunta": "¿Ha estado o está en aislamiento preventivo porque ha sido diagnosticado de COVID-19?",
+                            "PreguntaPadre": 27,
+                            "Respuesta": null,
+                            "Opciones": [
+
+                            ]
+                        },
+                        {
+                            "IdPregunta": 37,
+                            "TipoPregunta": {
+                                "Id": "5",
+                                "Nombre": "Si-No"
+                            },
+                            "Pregunta": "¿Ha tenido incapacidad temporal por caso asociado a COVID-19?",
+                            "PreguntaPadre": 27,
+                            "Respuesta": null,
+                            "Opciones": [
+
+                            ]
+                        }
+                    ];
+
+
+                    this.procesarPreguntas(preguntasServer);
+
+                    this.pregunta.Respuesta = "sss";
+
+
+                },
+
+                procesarPreguntas: function procesarPreguntas(preguntas) {
+
+                    for (var i = 0; i < preguntas.length; i++) {
+
+                        var aplicaRegex = false;
+
+                       
+                        //Si es pregunta tipo texto
+                        if (preguntas[i].TipoPregunta.Id == 7) {
+                            //Si es pregunta es email:
+                            preguntas[i].Expresion = { required: true }
+                            /*preguntas[i].Expresion = {
+                                required: true
+                                //regex: /^[a-zA-ZñÑ0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9-]{2,24}$/
+                            };*/
+                        }
+                        
+                    }
+
+
+                    this.datosUsuario.Preguntas = [];
+
+                    this.datosUsuario.Preguntas = Object.assign({}, this.datosUsuario.Preguntas, preguntas);
+
+                    this.pregunta.Respuesta = "Juaniro";
+                },
+                obtenerConfiguracionDatePicker: function obtenerConfiguracionDatePicker(pMinDate, pMaxDate) {
+                    return {
+                        locale: 'es',
+                        viewMode: 'months',
+                        format: 'DD/MM/YYYY',
+                        minDate: pMinDate,
+                        maxDate: pMaxDate,
+                        useCurrent: false,
+                        showClear: false,
+                        showClose: false
+                    };
+                },
+                obtenerReglasPreguntaTipoNumero: function obtenerReglasPreguntaTipoNumero(pMaxValue) {
+                    return {
+                        required: true,
+                        numeric: true,
+                        max_value: pMaxValue
+                    };
+                },
+                finalizarEncuesta: function finalizarEncuesta() {
+                    if (!this.datosUsuario.Afiliado) {
+                        this.datosUsuario.Documento = this.datosUsuario.NumeroIdentificacion;
+                        this.datosUsuario.TipoDocumento = this.datosUsuario.TipoIdentificacion.Id;
+                    }
+
+                    var self = this;
+                    this.$validator.validateAll("valEncuestaUsuario").then(function (result) {
+                        if (result) {
+                            self.enviarEncuesta();
+                        }
+                        else {
+                            self.mensajeModal('Error',
+                                'Señor usuario, faltan preguntas por responder.',
+                                null,
+                                false);
+                        }
+                    });
+                },
+                actualizacionFechaOnChange: function actualizacionFechaOnChange(pregunta) {
+
+                    //Para fecha nacimiento.
+                    if (pregunta !== undefined && pregunta.IdPregunta == 2 && pregunta.Respuesta) {
+                        var nacimiento = moment(pregunta.Respuesta, "DD/MM/YYYY");
+                        var fechaActual = moment();
+                        var anios = fechaActual.diff(nacimiento, "years");
+
+                        var indexPreguntaEdad = this.obtenerIndexPregunta('1');//PRegunta edad.
+                        this.datosUsuario.Preguntas[indexPreguntaEdad].Respuesta = anios.toString();
+
+                        ///Valida nuevamente la pregunta de edad:
+                        var self = this;
+                        setTimeout(function () {
+                            self.$validator.validate("valEncuestaUsuario.pregunta1");
+                        }, 1000);
+                    }
+                },
+                procesarPreguntasPorDefecto: function procesarPreguntasPorDefecto() {
+
+                    //Pregunta tipo Trabajador
+                    if (this.datosUsuario.tt && this.datosUsuario.Preguntas && this.datosUsuario.Preguntas.length > 0) {
+
+                        var indexPreguntaTrabajador = this.obtenerIndexPregunta('32');//Tipo trabajador
+                        this.datosUsuario.Preguntas[indexPreguntaTrabajador].Respuesta = this.datosUsuario.tt == 'D' ? 'Dependiente' : 'Independiente';
+                    }
+                },
+                obtenerIndexPregunta: function obtenerIndexPregunta(idPregunta) {
+                    var index;
+                    for (var i = 0; i < this.datosUsuario.Preguntas.length; i++) {
+                        if (this.datosUsuario.Preguntas[i].IdPregunta == idPregunta) {
+                            index = i
+                            break;
+                        }
+                    }
+                    return index;
+                }
+
+
+
+            }
+        });
+    </script>
+
+
+
+</body>
+
+</html>
